@@ -195,6 +195,29 @@ public class FirstTest {
 
     }
 
+    @Test
+    public void testSearchItemsTitle() {
+        waitForElementAndClick
+                (
+                        By.xpath("//*[contains(@text, 'Search Wikipedia')]"),
+                        "Cannot find Search Wikipedia input",
+                        5
+                );
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Macbook",
+                "Cannot find search input",
+                5
+        );
+        assertItemsTitleContainsText(
+                By.id("org.wikipedia:id/page_list_item_title"),
+                "Element is not found",
+                "Macbook",
+                7
+        );
+    }
+
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -241,6 +264,14 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         List<WebElement> search_results = driver.findElements(by);
         Assert.assertTrue("Number of articles is less than " + expected_number, expected_number <= search_results.size());
+    }
+
+    private void assertItemsTitleContainsText(By by, String error_message, String expected_text, long timeoutInSeconds) {
+        WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
+        List<WebElement> search_results = driver.findElements(by);
+        for (WebElement el : search_results) {
+            Assert.assertTrue(el.getText().toLowerCase().contains(expected_text.toLowerCase()));
+        }
     }
 
 }
