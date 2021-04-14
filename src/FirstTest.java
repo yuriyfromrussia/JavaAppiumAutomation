@@ -270,7 +270,7 @@ public class FirstTest {
         WebElement element = waitForElementPresent(by, error_message, timeoutInSeconds);
         List<WebElement> search_results = driver.findElements(by);
         for (WebElement el : search_results) {
-            Assert.assertTrue(el.getText().toLowerCase().contains(expected_text.toLowerCase()));
+            Assert.assertTrue("Item title is not matching text " + expected_text, el.getText().toLowerCase().contains(expected_text.toLowerCase()));
         }
     }
 
